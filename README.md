@@ -1,0 +1,2 @@
+# Philosophers
+Philosophers project - Hive
