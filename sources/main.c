@@ -3,23 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/10/21 15:25:05 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:00:18 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-
-size_t	get_curr_time_ms(void)
-{
-	struct timeval	time;
-
-	if (gettimeofday(&time, NULL) == -1)
-		return (error_msg("Failed to get current time", 1));
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
+#include "philo.h"
 
 int	main(int ac, char **av)
 {
@@ -38,12 +29,18 @@ int	main(int ac, char **av)
 	if (prog == NULL)
 		return (error_msg("Failed to initialize program", 1));
 	i = 0;
+	prog->dead = FALSE;
 	while (prog->philos[i] != NULL)
 	{
-		printf("id: %zu, die: %zu, eat: %zu, sleep: %zu eat times: %zu start time: %zu\n", prog->philos[i]->id, \
-			prog->philos[i]->time_to_die, prog->philos[i]->time_to_eat, prog->philos[i]->time_to_sleep, \
-			prog->philos[i]->times_to_eat, prog->philos[i]->start_time);
-			i++;
+		pthread_create(&prog->philos[i]->thread, NULL, \
+			&philo_routine, prog->philos[i]);
+		usleep(1);
+		i++;
 	}
+	monitoring(prog);
+	i = 0;
+	while (prog->philos[i] != NULL)
+		pthread_join(prog->philos[i++]->thread, NULL);
 	free_philos(prog, 1, 0);
+	return (0);
 }

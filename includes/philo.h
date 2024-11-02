@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/10/21 15:23:43 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/02 17:30:40 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@
  * (in milliseconds).
  * @param start_time Starting time of the program.
  * @param dead A pointer to the `dead` flag found in `t_prog`.
- * @param fork A mutex for the philosophers fork.
+ * @param l_fork A mutex for the philosophers left hand fork.
+ * @param r_fork A mutex for the philosophers right hand fork.
  * @param write_lock A pointer to the `write_lock` mutex found in `t_prog`.
  * @param meal_lock A pointer to the `meal_lock` mutex found in `t_prog`.
  */
@@ -52,7 +53,7 @@ typedef struct s_philo
 	size_t			id;
 	int				eating;
 	size_t			meals_eaten;
-	size_t			times_to_eat;
+	int				times_to_eat;
 	size_t			num_philos;
 	size_t			last_meal;
 	size_t			time_to_die;
@@ -60,7 +61,8 @@ typedef struct s_philo
 	size_t			time_to_sleep;
 	size_t			start_time;
 	int				*dead;
-	pthread_mutex_t	fork;
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*meal_lock;
 }	t_philo;
@@ -112,6 +114,41 @@ int		validate_args(int ac, char **av);
  */
 t_prog	*init_philo(char **av, size_t time);
 
+
+/******************************************************************************/
+/*                                                                            */
+/*                               PHILO_ROUTINE.C                              */
+/*                                                                            */
+/******************************************************************************/
+
+/**
+ * Function (passed to pthread_create) to go through the philosophers routine.
+ * 
+ * @param[in] arg The philosopher stucture.
+ * 
+ * @returns The given parameter.
+ */
+void	*philo_routine(void *arg);
+
+
+/******************************************************************************/
+/*                                                                            */
+/*                                MONITORING.C                                */
+/*                                                                            */
+/******************************************************************************/
+
+/**
+ * Checks if any of the philosophers should be dead and modifies the dead flag
+ * found in ´t_prog´
+ * 
+ * @param[in] prog The program structure containing each philosopher.
+ * 
+ * @returns 1 if a philosopher died or 0 if each philosopher has eaten the
+ * maximum amount of times (optional argument given to the program).
+ */
+int		monitoring(t_prog *prog);
+
+
 /******************************************************************************/
 /*                                                                            */
 /*                                  UTILS.C                                   */
@@ -148,6 +185,14 @@ size_t	ft_strlen(char *str);
 int		error_msg(char *msg, int ret_val);
 
 /**
+ * Prints the routine message.
+ * 
+ * @param[in] philo The philosopher writing.
+ * @param[in] str The message to write.
+ */
+void	print_routine(t_philo *philo, char *str);
+
+/**
  * Converts the given string to unsigned long representation.
  * 
  * @param[in] str The sting to convert.
@@ -155,5 +200,12 @@ int		error_msg(char *msg, int ret_val);
  * @returns The converted number.
  */
 size_t	ft_atoul(const char *str);
+
+/**
+ * Gets the current time and converts it to milliseconds.
+ * 
+ * @return The current time in milliseconds.
+ */
+size_t	get_curr_time_ms(void);
 
 #endif

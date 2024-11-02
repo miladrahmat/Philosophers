@@ -12,7 +12,10 @@ HEADERS := -I ./includes/
 
 SRC_FILES := main.c \
 			init_philo.c \
-			utils.c
+			utils.c \
+			philo_routine.c \
+			monitoring.c \
+			print_msg.c
 
 SRCS := $(addprefix $(SRC_DIR), $(SRC_FILES))
 
