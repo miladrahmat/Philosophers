@@ -6,7 +6,7 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:30:40 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:54:36 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <string.h>
 # include <pthread.h>
 # include <sys/time.h>
 
@@ -45,14 +44,13 @@
  * @param l_fork A mutex for the philosophers left hand fork.
  * @param r_fork A mutex for the philosophers right hand fork.
  * @param write_lock A pointer to the `write_lock` mutex found in `t_prog`.
- * @param meal_lock A pointer to the `meal_lock` mutex found in `t_prog`.
  */
 typedef struct s_philo
 {
 	pthread_t		thread;
 	size_t			id;
 	int				eating;
-	size_t			meals_eaten;
+	int				meals_eaten;
 	int				times_to_eat;
 	size_t			num_philos;
 	size_t			last_meal;
@@ -61,10 +59,9 @@ typedef struct s_philo
 	size_t			time_to_sleep;
 	size_t			start_time;
 	int				*dead;
-	pthread_mutex_t	l_fork;
+	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*write_lock;
-	pthread_mutex_t	*meal_lock;
 }	t_philo;
 
 /**
@@ -74,18 +71,16 @@ typedef struct s_philo
  * @param dead A death flag to see if any of the philosophers has died.
  * @param write_lock A mutex to to make sure that the printing of the
  * status of the philosophers won't overlap.
- * @param meal_lock A mutex to protect the forks used by the philosopher
- * which is eating.
+ * @param forks A  mutex array for forks.
  * @param philos A structure array containing each philosopher.
  */
 typedef struct s_prog
 {
 	int				dead;
 	pthread_mutex_t	write_lock;
-	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	*forks;
 	t_philo			**philos;
 }	t_prog;
-
 
 /******************************************************************************/
 /*                                                                            */
@@ -94,26 +89,15 @@ typedef struct s_prog
 /******************************************************************************/
 
 /**
- * Validates that the arguments are numbers that the program can work with.
- * 
- * @param[in] ac The number of arguments.
- * @param[in] av An array of strings containing the arguments.
- * 
- * @returns 1 if the arguments are of the correct type, -1 if not.
- */
-int		validate_args(int ac, char **av);
-/**
  * Converts the arguments, allocates memory for each philosopher and assigns
  * the correct values to each of them.
  * 
- * @param[in] ac The number of arguments.
  * @param[in] av An array of strings containing the arguments.
- * @param[out] prog The program structure.
  * 
- * @returns 1 in case of success and -1 if allocation fails.
+ * @returns The initialized t_prog structure on success,
+ * on failure returns `NULL`.
  */
-t_prog	*init_philo(char **av, size_t time);
-
+t_prog	*init_philo(char **av);
 
 /******************************************************************************/
 /*                                                                            */
@@ -130,7 +114,6 @@ t_prog	*init_philo(char **av, size_t time);
  */
 void	*philo_routine(void *arg);
 
-
 /******************************************************************************/
 /*                                                                            */
 /*                                MONITORING.C                                */
@@ -139,15 +122,36 @@ void	*philo_routine(void *arg);
 
 /**
  * Checks if any of the philosophers should be dead and modifies the dead flag
- * found in ´t_prog´
+ * found in ´t_prog´ (passed to pthread_create).
  * 
- * @param[in] prog The program structure containing each philosopher.
+ * @param[in] arg The program structure containing each philosopher.
  * 
  * @returns 1 if a philosopher died or 0 if each philosopher has eaten the
  * maximum amount of times (optional argument given to the program).
  */
-int		monitoring(t_prog *prog);
+void	*monitoring(void *arg);
 
+/******************************************************************************/
+/*                                                                            */
+/*                                 PRINT_MSG.C                                */
+/*                                                                            */
+/******************************************************************************/
+
+/**
+* Writes the given string to STDERR.
+*
+* @param[in] msg The error message to write.
+* @param[in] ret_val The return value which the function will exit with.
+*/
+int		error_msg(char *msg, int ret_val);
+
+/**
+ * Prints the routine message.
+ * 
+ * @param[in] philo The philosopher writing.
+ * @param[in] str The message to write.
+ */
+void	print_routine(t_philo *philo, char *str);
 
 /******************************************************************************/
 /*                                                                            */
@@ -177,22 +181,6 @@ t_prog	*free_philos(t_prog *prog, int err, size_t index);
 size_t	ft_strlen(char *str);
 
 /**
-* Writes the given string to STDERR.
-*
-* @param[in] msg The error message to write.
-* @param[in] ret_val The return value which the function will exit with.
-*/
-int		error_msg(char *msg, int ret_val);
-
-/**
- * Prints the routine message.
- * 
- * @param[in] philo The philosopher writing.
- * @param[in] str The message to write.
- */
-void	print_routine(t_philo *philo, char *str);
-
-/**
  * Converts the given string to unsigned long representation.
  * 
  * @param[in] str The sting to convert.
@@ -204,7 +192,7 @@ size_t	ft_atoul(const char *str);
 /**
  * Gets the current time and converts it to milliseconds.
  * 
- * @return The current time in milliseconds.
+ * @returns The current time in milliseconds.
  */
 size_t	get_curr_time_ms(void);
 

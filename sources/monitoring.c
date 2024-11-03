@@ -6,40 +6,44 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:16:35 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/02 17:02:28 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/03 18:13:31 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-/* static int	check_max_meal(t_prog *prog)
+static int	check_max_meal(t_prog *prog)
 {
 	size_t	i;
+	size_t	philo_done;
 
 	i = 0;
+	philo_done = 0;
+	if (prog->philos[0]->times_to_eat == -1)
+		return (0);
 	while (prog->philos[i] != NULL)
 	{
 		if (prog->philos[i]->meals_eaten >= prog->philos[i]->times_to_eat)
-		{
-			prog->dead = TRUE;
-			return (1);
-		}
+			philo_done++;
 		i++;
 	}
+	if (philo_done == prog->philos[0]->num_philos)
+	{
+		prog->dead = TRUE;
+		return (1);
+	}
 	return (0);
-} */
+}
 
 static int	check_dead(t_prog *prog)
 {
 	size_t	i;
-	size_t	time;
 
 	i = 0;
-	time = get_curr_time_ms();
 	while (prog->philos[i] != NULL)
 	{
-		if (time - prog->philos[i]->last_meal >= prog->philos[i]->time_to_die \
-			&& prog->philos[i]->eating == FALSE)
+		if (get_curr_time_ms() - prog->philos[i]->last_meal >= \
+			prog->philos[i]->time_to_die && prog->philos[i]->eating == FALSE)
 		{
 			prog->dead = TRUE;
 			print_routine(prog->philos[i], "has died");
@@ -50,14 +54,17 @@ static int	check_dead(t_prog *prog)
 	return (0);
 }
 
-int	monitoring(t_prog *prog)
+void	*monitoring(void *arg)
 {
+	t_prog	*prog;
+
+	prog = arg;
 	while (TRUE)
 	{
 		if (check_dead(prog) == 1)
-			return (1);
-		/* if (check_max_meal(prog) == 1)
-			return (0); */
+			return (arg);
+		if (check_max_meal(prog) == 1)
+			return (arg);
 	}
-	return (0);
+	return (arg);
 }
