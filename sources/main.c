@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/03 18:46:10 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:19:23 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static pthread_t	create_threads(t_prog *prog)
 			free_philos(prog, 1, 0);
 			return (0);
 		}
-		usleep(1);
 		i++;
 	}
 	return (monitor_thread);

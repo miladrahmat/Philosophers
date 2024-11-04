@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_msg.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:17:29 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/02 16:49:52 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:47:52 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	print_routine(t_philo *philo, char *str)
 {
 	size_t	time;
 
-	pthread_mutex_lock(philo->write_lock);
 	time = get_curr_time_ms();
+	pthread_mutex_lock(philo->write_lock);
 	printf("%zu %zu %s\n", time - philo->start_time, philo->id, str);
 	pthread_mutex_unlock(philo->write_lock);
 }

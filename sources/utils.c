@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:50:20 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/03 18:49:53 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:45:50 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ static void	destroy_mutexes(t_prog *prog)
 			pthread_mutex_destroy(&prog->forks[i++]);
 	}
 	pthread_mutex_destroy(&prog->write_lock);
+	pthread_mutex_destroy(&prog->dead_lock);
+	pthread_mutex_destroy(&prog->meal_lock);
 }
 
 t_prog	*free_philos(t_prog *prog, int err, size_t index)

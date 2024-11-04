@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/03 18:46:33 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:51:57 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	assign_pointers(t_prog **prog, size_t index, size_t last_index)
 	(*prog)->philos[index]->num_philos = last_index + 1;
 	(*prog)->philos[index]->dead = &(*prog)->dead;
 	(*prog)->philos[index]->write_lock = &(*prog)->write_lock;
+	(*prog)->philos[index]->meal_lock = &(*prog)->meal_lock;
+	(*prog)->philos[index]->dead_lock = &(*prog)->dead_lock;
 	(*prog)->philos[index]->l_fork = &(*prog)->forks[index];
 	if (index == 0)
 		(*prog)->philos[index]->r_fork = &(*prog)->forks[last_index];
@@ -82,6 +84,10 @@ t_prog	*init_prog(size_t num_philos)
 	if (init_forks(prog, num_philos) < 0)
 		return (free_philos(prog, -1, 0));
 	if (pthread_mutex_init(&prog->write_lock, NULL) != 0)
+		return (free_philos(prog, -1, 0));
+	if (pthread_mutex_init(&prog->meal_lock, NULL) != 0)
+		return (free_philos(prog, -1, 0));
+	if (pthread_mutex_init(&prog->dead_lock, NULL) != 0)
 		return (free_philos(prog, -1, 0));
 	return (prog);
 }

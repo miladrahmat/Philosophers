@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/03 18:54:36 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/04 11:14:27 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*write_lock;
+	pthread_mutex_t	*meal_lock;
+	pthread_mutex_t	*dead_lock;
 }	t_philo;
 
 /**
@@ -78,6 +80,8 @@ typedef struct s_prog
 {
 	int				dead;
 	pthread_mutex_t	write_lock;
+	pthread_mutex_t	meal_lock;
+	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	*forks;
 	t_philo			**philos;
 }	t_prog;
@@ -113,6 +117,40 @@ t_prog	*init_philo(char **av);
  * @returns The given parameter.
  */
 void	*philo_routine(void *arg);
+
+/**
+ * Checks the dead flag found in `t_philo`.
+ * 
+ * @param[in] philo The philosopher struct.
+ * 
+ * @returns 1 if none of the philosophers are dead,
+ * -1 if a philosopher has died.
+ */
+int		philo_dead(t_philo *philo);
+
+/******************************************************************************/
+/*                                                                            */
+/*                                 GRAB_FORKS.C                               */
+/*                                                                            */
+/******************************************************************************/
+
+/**
+ * A function to grab forks for philosophers with even ids
+ * 
+ * @param[out] philo The philosopher structure.
+ * 
+ * @returns 1 if locking the forks were successfull, -1 in case of an error.
+ */
+int		lock_forks_even(t_philo *philo);
+
+/**
+ * A function to grab forks for philosophers with odd ids
+ * 
+ * @param[out] philo The philosopher structure.
+ * 
+ * @returns 1 if locking the forks were successfull, -1 in case of an error.
+ */
+int		lock_forks_odd(t_philo *philo);
 
 /******************************************************************************/
 /*                                                                            */
