@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 11:19:23 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/09 13:46:10 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	validate_args(int ac, char **av)
 		str_i = 0;
 		while (av[av_i][str_i] != '\0')
 		{
-			if (av[av_i][str_i] < '0' && av[av_i][str_i] > '9')
+			if (av[av_i][str_i] < '0' || av[av_i][str_i] > '9')
 				return (-1);
 			str_i++;
 		}
@@ -88,7 +88,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || ac > 6)
 		return (error_msg("Invalid number of arguments", 1));
 	if (validate_args(ac, av) < 0)
-		return (error_msg("Argumets must be numbers", 1));
+		return (error_msg("Argumets must be positive numbers", 1));
 	prog = init_philo(av);
 	if (prog == NULL)
 		return (error_msg("Failed to initialize program", 1));
