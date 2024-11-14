@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 12:01:55 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/14 10:56:14 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,11 @@ void	*philo_routine(void *arg)
 	while (philo_dead(philo) > 0)
 	{
 		if (philo_dead(philo) > 0)
+			philo_think(philo);
+		if (philo_dead(philo) > 0)
 			philo_eat(philo);
 		if (philo_dead(philo) > 0)
 			philo_sleep(philo);
-		if (philo_dead(philo) > 0)
-			philo_think(philo);
 		if (philo->id % 2 != 0)
 			usleep(500);
 	}
