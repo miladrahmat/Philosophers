@@ -46,6 +46,6 @@ fclean: clean
 	&& echo "\e[1;96m Removed all executables 🧹 \e[0m" \
 	|| echo "\e[1;91m Failed to remove executables 😔 \e[0m"
 
-re: clean all
+re: fclean all
 
 .PHONY: all, clean, fclean, re

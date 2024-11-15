@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:53:13 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 11:53:35 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/14 15:31:47 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,16 @@ int	lock_forks_odd(t_philo *philo)
 	}
 	print_routine(philo, "has taken a fork");
 	return (1);
+}
+
+void	unlock_forks_even(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
+}
+
+void	unlock_forks_odd(t_philo *philo)
+{
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
 }

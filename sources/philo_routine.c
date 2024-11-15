@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/14 10:56:14 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:50:16 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static void	philo_eat(t_philo *philo)
 	print_routine(philo, "is eating");
 	usleep(philo->time_to_eat * 1000);
 	philo->eating = FALSE;
-	pthread_mutex_unlock(philo->l_fork);
-	pthread_mutex_unlock(philo->r_fork);
+	if (philo->id % 2 == 0)
+		unlock_forks_even(philo);
+	else
+		unlock_forks_odd(philo);
 }
 
 void	*philo_routine(void *arg)
