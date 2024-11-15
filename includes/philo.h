@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/14 17:10:21 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:48:18 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,12 +202,13 @@ int		error_msg(char *msg, int ret_val);
  * 
  * @param[in] philo The philosopher writing.
  * @param[in] str The message to write.
+ * @param[in] dead A flag to see if a philosopher should be dead.
  */
-void	print_routine(t_philo *philo, char *str);
+void	print_routine(t_philo *philo, char *str, int dead);
 
 /******************************************************************************/
 /*                                                                            */
-/*                                  UTILS.C                                   */
+/*                                  CLEANUP.C                                 */
 /*                                                                            */
 /******************************************************************************/
 
@@ -222,6 +223,12 @@ void	print_routine(t_philo *philo, char *str);
  * @returns NULL
  */
 t_prog	*free_philos(t_prog *prog, int err, size_t index);
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  UTILS.C                                   */
+/*                                                                            */
+/******************************************************************************/
 
 /**
 * Computes the length og the given string.
@@ -247,5 +254,13 @@ size_t	ft_atoul(const char *str);
  * @returns The current time in milliseconds.
  */
 size_t	get_curr_time_ms(void);
+
+/**
+ * A custom wait function that also checks if a philosopher has died.
+ * 
+ * @param[in] wait_time The time to wait in milliseconds.
+ * @param[in] philo The philosopher struct.
+ */
+void	ft_wait(size_t wait_time, t_philo *philo);
 
 #endif

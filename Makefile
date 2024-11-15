@@ -16,7 +16,8 @@ SRC_FILES := main.c \
 			philo_routine.c \
 			monitoring.c \
 			print_msg.c \
-			grab_forks.c
+			grab_forks.c \
+			cleanup.c
 
 SRCS := $(addprefix $(SRC_DIR), $(SRC_FILES))
 

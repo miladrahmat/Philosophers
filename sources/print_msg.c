@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:17:29 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 11:47:52 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:02:34 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,21 @@ int	error_msg(char *msg, int ret_val)
 	return (ret_val);
 }
 
-void	print_routine(t_philo *philo, char *str)
+void	print_routine(t_philo *philo, char *str, int dead)
 {
-	size_t	time;
-
-	time = get_curr_time_ms();
 	pthread_mutex_lock(philo->write_lock);
-	printf("%zu %zu %s\n", time - philo->start_time, philo->id, str);
+	if (dead == 1)
+	{
+		pthread_mutex_lock(philo->dead_lock);
+		*philo->dead = TRUE;
+		pthread_mutex_unlock(philo->dead_lock);
+	}
+	else if (philo_dead(philo) < 0)
+	{
+		pthread_mutex_unlock(philo->write_lock);
+		return ;
+	}
+	printf("%zu %zu %s\n", get_curr_time_ms() - philo->start_time, \
+		philo->id, str);
 	pthread_mutex_unlock(philo->write_lock);
 }

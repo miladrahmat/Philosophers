@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 15:50:16 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:05:07 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ static void	philo_think(t_philo *philo)
 {
 	if (philo_dead(philo) < 0)
 		return ;
-	print_routine(philo, "is thinking");
+	print_routine(philo, "is thinking", 0);
 }
 
 static void	philo_sleep(t_philo *philo)
 {
 	if (philo_dead(philo) < 0)
 		return ;
-	print_routine(philo, "is sleeping");
-	usleep(philo->time_to_sleep * 1000);
+	print_routine(philo, "is sleeping", 0);
+	ft_wait(philo->time_to_sleep, philo);
 }
 
 static void	philo_eat(t_philo *philo)
@@ -52,13 +52,15 @@ static void	philo_eat(t_philo *philo)
 			return ;
 	}
 	pthread_mutex_lock(philo->meal_lock);
-	philo->last_meal = get_curr_time_ms();
 	philo->meals_eaten++;
 	philo->eating = TRUE;
 	pthread_mutex_unlock(philo->meal_lock);
-	print_routine(philo, "is eating");
-	usleep(philo->time_to_eat * 1000);
+	print_routine(philo, "is eating", 0);
+	ft_wait(philo->time_to_eat, philo);
+	pthread_mutex_lock(philo->meal_lock);
+	philo->last_meal = get_curr_time_ms();
 	philo->eating = FALSE;
+	pthread_mutex_unlock(philo->meal_lock);
 	if (philo->id % 2 == 0)
 		unlock_forks_even(philo);
 	else

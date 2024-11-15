@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:50:20 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 11:45:50 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 18:04:06 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,42 +51,17 @@ size_t	ft_atoul(const char *str)
 	return (nbr);
 }
 
-static void	destroy_mutexes(t_prog *prog)
+void	ft_wait(size_t wait_time, t_philo *philo)
 {
-	size_t	i;
+	size_t	start_time;
 
-	i = 0;
-	if (prog->forks != NULL)
+	start_time = get_curr_time_ms();
+	while (1)
 	{
-		while (i < prog->philos[0]->num_philos)
-			pthread_mutex_destroy(&prog->forks[i++]);
+		if (get_curr_time_ms() - start_time >= wait_time)
+			return ;
+		if (philo_dead(philo) < 0)
+			return ;
+		usleep(10);
 	}
-	pthread_mutex_destroy(&prog->write_lock);
-	pthread_mutex_destroy(&prog->dead_lock);
-	pthread_mutex_destroy(&prog->meal_lock);
-}
-
-t_prog	*free_philos(t_prog *prog, int err, size_t index)
-{
-	size_t	i;
-
-	destroy_mutexes(prog);
-	if (err < 0)
-	{
-		i = index;
-		while (i > 0)
-			free(prog->philos[i--]);
-		free(prog->philos[i]);
-	}
-	else
-	{
-		i = 0;
-		while (prog->philos[i] != NULL)
-			free(prog->philos[i++]);
-		free(prog->philos[i]);
-	}
-	free(prog->philos);
-	free(prog->forks);
-	free(prog);
-	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:53:13 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/14 15:31:47 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/11/15 17:48:49 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	lock_forks_even(t_philo *philo)
 		pthread_mutex_unlock(philo->r_fork);
 		return (-1);
 	}
-	print_routine(philo, "has taken a fork");
+	print_routine(philo, "has taken a fork", 0);
 	if (philo->num_philos == 1)
 	{
-		usleep(philo->time_to_die * 1000);
-		pthread_mutex_unlock(philo->r_fork);
+		ft_wait(philo->time_to_die, philo);
+		pthread_mutex_unlock(philo->l_fork);
 		return (-1);
 	}
 	pthread_mutex_lock(philo->l_fork);
@@ -34,7 +34,7 @@ int	lock_forks_even(t_philo *philo)
 		pthread_mutex_unlock(philo->r_fork);
 		return (-1);
 	}
-	print_routine(philo, "has taken a fork");
+	print_routine(philo, "has taken a fork", 0);
 	return (1);
 }
 
@@ -46,10 +46,10 @@ int	lock_forks_odd(t_philo *philo)
 		pthread_mutex_unlock(philo->l_fork);
 		return (-1);
 	}
-	print_routine(philo, "has taken a fork");
+	print_routine(philo, "has taken a fork", 0);
 	if (philo->num_philos == 1)
 	{
-		usleep(philo->time_to_die * 1000);
+		ft_wait(philo->time_to_die, philo);
 		pthread_mutex_unlock(philo->l_fork);
 		return (-1);
 	}
@@ -60,7 +60,7 @@ int	lock_forks_odd(t_philo *philo)
 		pthread_mutex_unlock(philo->l_fork);
 		return (-1);
 	}
-	print_routine(philo, "has taken a fork");
+	print_routine(philo, "has taken a fork", 0);
 	return (1);
 }
 
