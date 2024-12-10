@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 15:17:29 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 18:02:34 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/10 09:58:56 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	error_msg(char *msg, int ret_val)
 	if (msg == NULL || *msg == '\0')
 		return (ret_val);
 	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 	return (ret_val);
 }
 
