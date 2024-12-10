@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 17:48:18 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:42:30 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdlib.h>
 # include <pthread.h>
 # include <sys/time.h>
+# include <string.h>
 
 /**
  * Structure for each philosopher, containing the information used in each

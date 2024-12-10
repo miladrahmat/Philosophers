@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:04:04 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 17:04:25 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/10 12:11:07 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,25 @@ t_prog	*free_philos(t_prog *prog, int err, size_t index)
 {
 	size_t	i;
 
+	if (prog == NULL)
+		return (NULL);
 	destroy_mutexes(prog);
-	if (err < 0)
+	if (err < 0 && prog->philos != NULL)
 	{
 		i = index;
-		while (i > 0)
+		while (i >= 0)
 			free(prog->philos[i--]);
-		free(prog->philos[i]);
 	}
-	else
+	else if (prog->philos != NULL)
 	{
 		i = 0;
 		while (prog->philos[i] != NULL)
 			free(prog->philos[i++]);
-		free(prog->philos[i]);
 	}
-	free(prog->philos);
-	free(prog->forks);
+	if (prog->philos != NULL)
+		free(prog->philos);
+	if (prog->forks != NULL)
+		free(prog->forks);
 	free(prog);
 	return (NULL);
 }

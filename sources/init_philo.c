@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/04 11:51:57 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/10 13:51:19 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,22 @@ t_prog	*init_prog(size_t num_philos)
 	prog = malloc(sizeof(t_prog));
 	if (prog == NULL)
 		return (NULL);
-	prog->philos = malloc((num_philos + 1) * sizeof(t_philo *));
-	if (prog->philos == NULL)
-		return (free_philos(prog, -1, 0));
-	prog->forks = malloc(num_philos * sizeof(pthread_mutex_t));
-	if (prog->forks == NULL)
-		return (free_philos(prog, -1, 0));
-	if (init_forks(prog, num_philos) < 0)
-		return (free_philos(prog, -1, 0));
+	memset(prog, 0, sizeof(t_prog));
 	if (pthread_mutex_init(&prog->write_lock, NULL) != 0)
 		return (free_philos(prog, -1, 0));
 	if (pthread_mutex_init(&prog->meal_lock, NULL) != 0)
 		return (free_philos(prog, -1, 0));
 	if (pthread_mutex_init(&prog->dead_lock, NULL) != 0)
+		return (free_philos(prog, -1, 0));
+	prog->philos = malloc((num_philos + 1) * sizeof(t_philo *));
+	if (prog->philos == NULL)
+		return (free_philos(prog, -1, 0));
+	memset(prog->philos, 0, (num_philos + 1) * sizeof(t_philo *));
+	prog->forks = malloc(num_philos * sizeof(pthread_mutex_t));
+	if (prog->forks == NULL)
+		return (free_philos(prog, -1, 0));
+	memset(prog->forks, 0, (num_philos + 1) * sizeof(pthread_mutex_t));
+	if (init_forks(prog, num_philos) < 0)
 		return (free_philos(prog, -1, 0));
 	return (prog);
 }
