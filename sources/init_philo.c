@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/10 13:51:19 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/10 14:02:47 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_prog	*init_prog(size_t num_philos)
 	if (prog->philos == NULL)
 		return (free_philos(prog, -1, 0));
 	memset(prog->philos, 0, (num_philos + 1) * sizeof(t_philo *));
-	prog->forks = malloc(num_philos * sizeof(pthread_mutex_t));
+	prog->forks = malloc((num_philos + 1) * sizeof(pthread_mutex_t));
 	if (prog->forks == NULL)
 		return (free_philos(prog, -1, 0));
 	memset(prog->forks, 0, (num_philos + 1) * sizeof(pthread_mutex_t));
