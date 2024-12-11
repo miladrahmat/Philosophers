@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 19:06:14 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:31:45 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,20 @@ int		lock_forks_even(t_philo *philo);
  * @returns 1 if locking the forks were successfull, -1 in case of an error.
  */
 int		lock_forks_odd(t_philo *philo);
+
+/**
+ * A function to unlock fork mutexes for philosophers with even ids.
+ * 
+ * @param[out] philo The philosopher structure.
+ */
+void	unlock_forks_even(t_philo *philo);
+
+/**
+ * A function to unlock fork mutexes for philosophers with odd ids.
+ * 
+ * @param[out] philo The philosopher structure.
+ */
+void	unlock_forks_odd(t_philo *philo);
 
 /******************************************************************************/
 /*                                                                            */
