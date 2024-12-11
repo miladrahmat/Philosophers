@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:02:47 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:54:39 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	assign_values(char **av, t_philo **philo, size_t id)
 	time = get_curr_time_ms();
 	(*philo)->start_time = time;
 	(*philo)->last_meal = time;
-	(*philo)->eating = FALSE;
 	return (0);
 }
 

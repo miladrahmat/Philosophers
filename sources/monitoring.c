@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:16:35 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 17:51:33 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:31:38 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	check_dead(t_prog *prog)
 	{
 		pthread_mutex_lock(&prog->meal_lock);
 		if (get_curr_time_ms() - prog->philos[i]->last_meal >= \
-			prog->philos[i]->time_to_die && prog->philos[i]->eating == FALSE)
+			prog->philos[i]->time_to_die)
 		{
 			pthread_mutex_unlock(&prog->meal_lock);
 			print_routine(prog->philos[i], "died", 1);

@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:50:20 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/15 18:04:06 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:03:24 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ void	ft_wait(size_t wait_time, t_philo *philo)
 			return ;
 		if (philo_dead(philo) < 0)
 			return ;
-		usleep(10);
+		usleep(100);
 	}
 }

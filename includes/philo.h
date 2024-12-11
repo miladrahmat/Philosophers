@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/10 13:42:30 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:06:14 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
  * 
  * @param thread Thread initializer.
  * @param id The id of the philosopher.
- * @param eating A flag to see if the philosopher is eating.
  * @param meals_eaten The number of meals the philosopher has eaten.
  * @param times_to_eat The number of times each philosopher must eat
  * before the program ends. (Value of the optional argument given by the user)
@@ -45,12 +44,13 @@
  * @param l_fork A mutex for the philosophers left hand fork.
  * @param r_fork A mutex for the philosophers right hand fork.
  * @param write_lock A pointer to the `write_lock` mutex found in `t_prog`.
+ * @param meal_lock A pointer to the `meal_lock` mutex found in `t_prog`.
+ * @param dead_lock A pointer to the `dead_lock` mutex found in `t_prog`.
  */
 typedef struct s_philo
 {
 	pthread_t		thread;
 	size_t			id;
-	int				eating;
 	int				meals_eaten;
 	int				times_to_eat;
 	size_t			num_philos;
@@ -72,8 +72,12 @@ typedef struct s_philo
  * used in the program.
  * 
  * @param dead A death flag to see if any of the philosophers has died.
- * @param write_lock A mutex to to make sure that the printing of the
+ * @param write_lock A mutex to make sure that the printing of the
  * status of the philosophers won't overlap.
+ * @param meal_lock A mutex to make sure that changing/checking the values needed
+ * while eating won't get race conditions.
+ * @param dead_lock A mutex to make sure that changing/checking the values needed
+ * while dying won't get race conditions.
  * @param forks A  mutex array for forks.
  * @param philos A structure array containing each philosopher.
  */
@@ -152,20 +156,6 @@ int		lock_forks_even(t_philo *philo);
  * @returns 1 if locking the forks were successfull, -1 in case of an error.
  */
 int		lock_forks_odd(t_philo *philo);
-
-/**
- * A function to unlock fork mutexes for philosophers with even ids.
- * 
- * @param[out] philo The philosopher structure.
- */
-void	unlock_forks_even(t_philo *philo);
-
-/**
- * A function to unlock fork mutexes for philosophers with odd ids.
- * 
- * @param[out] philo The philosopher structure.
- */
-void	unlock_forks_odd(t_philo *philo);
 
 /******************************************************************************/
 /*                                                                            */

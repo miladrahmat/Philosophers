@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/10 14:07:41 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 18:56:16 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,11 @@ int	philo_dead(t_philo *philo)
 
 static void	philo_think(t_philo *philo)
 {
-	if (philo_dead(philo) < 0)
-		return ;
 	print_routine(philo, "is thinking", 0);
 }
 
 static void	philo_sleep(t_philo *philo)
 {
-	if (philo_dead(philo) < 0)
-		return ;
 	print_routine(philo, "is sleeping", 0);
 	ft_wait(philo->time_to_sleep, philo);
 }
@@ -53,18 +49,12 @@ static void	philo_eat(t_philo *philo)
 	}
 	pthread_mutex_lock(philo->meal_lock);
 	philo->meals_eaten++;
-	philo->eating = TRUE;
+	philo->last_meal = get_curr_time_ms();
 	pthread_mutex_unlock(philo->meal_lock);
 	print_routine(philo, "is eating", 0);
 	ft_wait(philo->time_to_eat, philo);
-	pthread_mutex_lock(philo->meal_lock);
-	philo->last_meal = get_curr_time_ms();
-	philo->eating = FALSE;
-	pthread_mutex_unlock(philo->meal_lock);
-	if (philo->id % 2 == 0)
-		unlock_forks_even(philo);
-	else
-		unlock_forks_odd(philo);
+	pthread_mutex_unlock(philo->l_fork);
+	pthread_mutex_unlock(philo->r_fork);
 }
 
 void	*philo_routine(void *arg)
@@ -72,18 +62,14 @@ void	*philo_routine(void *arg)
 	t_philo	*philo;
 
 	philo = arg;
-	if (philo_dead(philo) > 0)
-		philo_think(philo);
+	philo_think(philo);
 	if (philo->id % 2 == 0)
-		ft_wait(philo->time_to_eat, philo);
+		ft_wait(philo->time_to_eat - 5, philo);
 	while (philo_dead(philo) > 0)
 	{
-		if (philo_dead(philo) > 0)
-			philo_eat(philo);
-		if (philo_dead(philo) > 0)
-			philo_sleep(philo);
-		if (philo_dead(philo) > 0)
-			philo_think(philo);
+		philo_eat(philo);
+		philo_sleep(philo);
+		philo_think(philo);
 	}
 	return (arg);
 }
