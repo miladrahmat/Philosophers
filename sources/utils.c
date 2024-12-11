@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:50:20 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 19:03:24 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/11 19:41:56 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ void	ft_wait(size_t wait_time, t_philo *philo)
 	size_t	start_time;
 
 	start_time = get_curr_time_ms();
+	if (wait_time > philo->time_to_eat)
+		wait_time = philo->time_to_eat;
 	while (1)
 	{
-		if (get_curr_time_ms() - start_time >= wait_time)
-			return ;
 		if (philo_dead(philo) < 0)
+			return ;
+		if (get_curr_time_ms() - start_time >= wait_time)
 			return ;
 		usleep(100);
 	}
