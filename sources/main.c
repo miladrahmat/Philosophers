@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/13 17:17:10 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:46:47 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,10 @@ static void	*sync_simulation(void *arg)
 	return (arg);
 }
 
-static int	join_threads(t_prog	*prog, pthread_t monitor_thread)
+static int	join_threads(t_prog	*prog)
 {
 	size_t	i;
 
-	if (pthread_join(monitor_thread, NULL) != 0)
-	{
-		free_philos(prog, 1, 0);
-		return (-1);
-	}
 	i = 0;
 	while (prog->philos[i] != NULL)
 	{
@@ -45,29 +40,23 @@ static int	join_threads(t_prog	*prog, pthread_t monitor_thread)
 	return (0);
 }
 
-static pthread_t	create_threads(t_prog *prog)
+static int	create_threads(t_prog *prog)
 {
-	pthread_t	monitor_thread;
 	size_t		i;
 
 	i = 0;
-	if (pthread_create(&monitor_thread, NULL, &monitoring, prog) != 0)
-	{
-		free_philos(prog, 1, 0);
-		return (0);
-	}
 	while (prog->philos[i] != NULL)
 	{
 		if (pthread_create(&prog->philos[i]->thread, NULL, \
 			&sync_simulation, prog->philos[i]) != 0)
 		{
 			free_philos(prog, 1, 0);
-			return (0);
+			return (-1);
 		}
 		i++;
 	}
 	prog->simulation = TRUE;
-	return (monitor_thread);
+	return (1);
 }
 
 static int	validate_args(int ac, char **av)
@@ -94,7 +83,6 @@ static int	validate_args(int ac, char **av)
 
 int	main(int ac, char **av)
 {
-	pthread_t	monitor_thread;
 	t_prog		*prog;
 
 	if (ac < 5 || ac > 6)
@@ -106,10 +94,10 @@ int	main(int ac, char **av)
 		return (error_msg("Failed to initialize program", 1));
 	prog->dead = FALSE;
 	prog->simulation = FALSE;
-	monitor_thread = create_threads(prog);
-	if (monitor_thread == 0)
+	if (create_threads(prog) < 0)
 		return (error_msg("Failed to create threads", 1));
-	if (join_threads(prog, monitor_thread) < 0)
+	monitoring(prog);
+	if (join_threads(prog) < 0)
 		return (error_msg("Failed to join threads", 1));
 	free_philos(prog, 1, 0);
 	return (0);
