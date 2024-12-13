@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:16:35 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/13 17:14:24 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:36:57 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,14 @@ static int	check_max_meal(t_prog *prog)
 		pthread_mutex_unlock(&prog->meal_lock);
 		i++;
 	}
+	pthread_mutex_lock(&prog->meal_lock);
 	if (philo_done == prog->philos[0]->num_philos)
 	{
-		pthread_mutex_lock(&prog->dead_lock);
 		prog->dead = TRUE;
-		pthread_mutex_unlock(&prog->dead_lock);
+		pthread_mutex_unlock(&prog->meal_lock);
 		return (1);
 	}
+	pthread_mutex_unlock(&prog->meal_lock);
 	return (0);
 }
 

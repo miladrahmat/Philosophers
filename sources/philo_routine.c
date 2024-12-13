@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 19:35:17 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 18:36:45 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	philo_dead(t_philo *philo)
 {
-	pthread_mutex_lock(philo->dead_lock);
+	pthread_mutex_lock(philo->meal_lock);
 	if (*(int *)philo->dead == TRUE)
 	{
-		pthread_mutex_unlock(philo->dead_lock);
+		pthread_mutex_unlock(philo->meal_lock);
 		return (-1);
 	}
-	pthread_mutex_unlock(philo->dead_lock);
+	pthread_mutex_unlock(philo->meal_lock);
 	return (1);
 }
 
@@ -37,16 +37,8 @@ static void	philo_sleep(t_philo *philo)
 
 static void	philo_eat(t_philo *philo)
 {
-	if (philo->id % 2 == 0)
-	{
-		if (lock_forks_even(philo) < 0)
-			return ;
-	}
-	else
-	{
-		if (lock_forks_odd(philo) < 0)
-			return ;
-	}
+	if (lock_forks_odd(philo) < 0)
+		return ;
 	pthread_mutex_lock(philo->meal_lock);
 	philo->meals_eaten++;
 	philo->last_meal = get_curr_time_ms();
