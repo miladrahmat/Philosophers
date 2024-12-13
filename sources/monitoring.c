@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:16:35 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 18:31:38 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:14:24 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void	*monitoring(void *arg)
 	t_prog	*prog;
 
 	prog = arg;
+	while (prog->simulation == FALSE)
+		usleep(10);
 	while (TRUE)
 	{
 		if (check_dead(prog) == 1)

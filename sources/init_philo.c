@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 18:54:39 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:38:43 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	assign_pointers(t_prog **prog, size_t index, size_t last_index)
 {
 	(*prog)->philos[index]->num_philos = last_index + 1;
 	(*prog)->philos[index]->dead = &(*prog)->dead;
+	(*prog)->philos[index]->simulation = &(*prog)->simulation;
 	(*prog)->philos[index]->write_lock = &(*prog)->write_lock;
 	(*prog)->philos[index]->meal_lock = &(*prog)->meal_lock;
 	(*prog)->philos[index]->dead_lock = &(*prog)->dead_lock;

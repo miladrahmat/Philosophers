@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/11/09 13:46:10 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 17:17:10 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	*sync_simulation(void *arg)
+{
+	t_philo	*philo;
+
+	philo = arg;
+	while (*philo->simulation == FALSE)
+		continue ;
+	philo_routine(philo);
+	return (arg);
+}
 
 static int	join_threads(t_prog	*prog, pthread_t monitor_thread)
 {
@@ -48,13 +59,14 @@ static pthread_t	create_threads(t_prog *prog)
 	while (prog->philos[i] != NULL)
 	{
 		if (pthread_create(&prog->philos[i]->thread, NULL, \
-			&philo_routine, prog->philos[i]) != 0)
+			&sync_simulation, prog->philos[i]) != 0)
 		{
 			free_philos(prog, 1, 0);
 			return (0);
 		}
 		i++;
 	}
+	prog->simulation = TRUE;
 	return (monitor_thread);
 }
 
@@ -93,6 +105,7 @@ int	main(int ac, char **av)
 	if (prog == NULL)
 		return (error_msg("Failed to initialize program", 1));
 	prog->dead = FALSE;
+	prog->simulation = FALSE;
 	monitor_thread = create_threads(prog);
 	if (monitor_thread == 0)
 		return (error_msg("Failed to create threads", 1));

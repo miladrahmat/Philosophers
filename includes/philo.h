@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/11 19:31:45 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/13 15:53:35 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_philo
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
 	size_t			start_time;
+	int				*simulation;
 	int				*dead;
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
@@ -83,6 +84,7 @@ typedef struct s_philo
  */
 typedef struct s_prog
 {
+	int				simulation;
 	int				dead;
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	meal_lock;
