@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:38:38 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/13 18:00:27 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:13:38 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,17 @@ static void	*sync_simulation(void *arg)
 	t_philo	*philo;
 
 	philo = arg;
-	while (*philo->simulation == FALSE)
-		continue ;
+	while (1)
+	{
+		pthread_mutex_lock(philo->data_lock);
+		if (*philo->simulation == TRUE)
+		{
+			pthread_mutex_unlock(philo->data_lock);
+			break ;
+		}
+		pthread_mutex_unlock(philo->data_lock);
+		usleep(1);
+	}
 	philo_routine(philo);
 	return (arg);
 }
@@ -55,7 +64,9 @@ static int	create_threads(t_prog *prog)
 		}
 		i++;
 	}
+	pthread_mutex_lock(&prog->data_lock);
 	prog->simulation = TRUE;
+	pthread_mutex_unlock(&prog->data_lock);
 	return (1);
 }
 
