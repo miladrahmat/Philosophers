@@ -6,7 +6,7 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 10:53:13 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:05:19 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:48:47 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	lock_forks_odd(t_philo *philo)
 	print_routine(philo, "has taken a fork", 0);
 	if (philo->num_philos == 1)
 	{
-		ft_wait(philo->time_to_die, philo);
+		ft_wait(philo->time_to_die, philo, 0);
 		pthread_mutex_unlock(philo->l_fork);
 		return (-1);
 	}

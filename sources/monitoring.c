@@ -6,7 +6,7 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 16:16:35 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:14:02 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:48:19 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	*monitoring(void *arg)
 			return (arg);
 		if (check_max_meal(prog) == 1)
 			return (arg);
-		usleep(5000);
 	}
 	return (arg);
 }

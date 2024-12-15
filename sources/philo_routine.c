@@ -6,7 +6,7 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 13:47:11 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:14:16 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:47:19 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	philo_think(t_philo *philo)
 static void	philo_sleep(t_philo *philo)
 {
 	print_routine(philo, "is sleeping", 0);
-	ft_wait(philo->time_to_sleep, philo);
+	ft_wait(philo->time_to_sleep, philo, 0);
 }
 
 static void	philo_eat(t_philo *philo)
@@ -44,7 +44,7 @@ static void	philo_eat(t_philo *philo)
 	philo->last_meal = get_curr_time_ms();
 	pthread_mutex_unlock(philo->data_lock);
 	print_routine(philo, "is eating", 0);
-	ft_wait(philo->time_to_eat, philo);
+	ft_wait(philo->time_to_eat, philo, 0);
 	pthread_mutex_unlock(philo->l_fork);
 	pthread_mutex_unlock(philo->r_fork);
 }
@@ -56,7 +56,7 @@ void	*philo_routine(void *arg)
 	philo = arg;
 	philo_think(philo);
 	if (philo->id % 2 == 0)
-		ft_wait(philo->time_to_eat - 5, philo);
+		ft_wait(philo->time_to_eat - 5, philo, 1);
 	while (philo_dead(philo) > 0)
 	{
 		philo_eat(philo);

@@ -6,7 +6,7 @@
 /*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:12:24 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 20:46:39 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,7 +257,8 @@ size_t	get_curr_time_ms(void);
  * 
  * @param[in] wait_time The time to wait in milliseconds.
  * @param[in] philo The philosopher struct.
+ * @param[in] first_wait A flag indicating the first wait.
  */
-void	ft_wait(size_t wait_time, t_philo *philo);
+void	ft_wait(size_t wait_time, t_philo *philo, int first_wait);
 
 #endif
