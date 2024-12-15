@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:04:04 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/10 12:11:07 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/15 18:52:25 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_prog	*free_philos(t_prog *prog, int err, size_t index)
 	if (err < 0 && prog->philos != NULL)
 	{
 		i = index;
-		while (i >= 0)
+		while ((int)i >= 0)
 			free(prog->philos[i--]);
 	}
 	else if (prog->philos != NULL)
