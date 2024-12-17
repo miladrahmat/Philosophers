@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:46:39 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:54:15 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@
  * @param l_fork A mutex for the philosophers left hand fork.
  * @param r_fork A mutex for the philosophers right hand fork.
  * @param data_lock A pointer to the `data_lock` mutex found in `t_prog`.
+ * @param write_lock A pointer to the `write_lock` mutex found in `t_prog`.
  */
 typedef struct s_philo
 {
@@ -62,6 +63,7 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 	pthread_mutex_t	*data_lock;
+	pthread_mutex_t	*write_lock;
 }	t_philo;
 
 /**
@@ -71,6 +73,8 @@ typedef struct s_philo
  * @param dead A death flag to see if any of the philosophers has died.
  * @param data_lock A mutex to make sure that changing/checking the shared data
  * between the philosophers won't overlap
+ * @param write_lock A mutex to make sure that one philosopher is 
+ * writing at a time.
  * @param forks A  mutex array for forks.
  * @param philos A structure array containing each philosopher.
  */
@@ -79,6 +83,7 @@ typedef struct s_prog
 	int				simulation;
 	int				dead;
 	pthread_mutex_t	data_lock;
+	pthread_mutex_t	write_lock;
 	pthread_mutex_t	*forks;
 	t_philo			**philos;
 }	t_prog;

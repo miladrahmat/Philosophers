@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_philo.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 10:04:08 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:13:05 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:55:39 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	assign_pointers(t_prog **prog, size_t index, size_t last_index)
 	(*prog)->philos[index]->dead = &(*prog)->dead;
 	(*prog)->philos[index]->simulation = &(*prog)->simulation;
 	(*prog)->philos[index]->data_lock = &(*prog)->data_lock;
+	(*prog)->philos[index]->write_lock = &(*prog)->write_lock;
 	(*prog)->philos[index]->l_fork = &(*prog)->forks[index];
 	if (index == 0)
 		(*prog)->philos[index]->r_fork = &(*prog)->forks[last_index];
@@ -75,6 +76,8 @@ t_prog	*init_prog(size_t num_philos)
 		return (NULL);
 	memset(prog, 0, sizeof(t_prog));
 	if (pthread_mutex_init(&prog->data_lock, NULL) != 0)
+		return (free_philos(prog, -1, 0));
+	if (pthread_mutex_init(&prog->write_lock, NULL) != 0)
 		return (free_philos(prog, -1, 0));
 	prog->philos = malloc((num_philos + 1) * sizeof(t_philo *));
 	if (prog->philos == NULL)

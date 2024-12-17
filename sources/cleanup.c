@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 17:04:04 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:14:39 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/17 14:55:59 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	destroy_mutexes(t_prog *prog)
 			pthread_mutex_destroy(&prog->forks[i++]);
 	}
 	pthread_mutex_destroy(&prog->data_lock);
+	pthread_mutex_destroy(&prog->write_lock);
 }
 
 t_prog	*free_philos(t_prog *prog, int err, size_t index)

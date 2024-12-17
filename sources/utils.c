@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mrahmat- < mrahmat-@student.hive.fi >      +#+  +:+       +#+        */
+/*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:50:20 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/15 20:47:43 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/17 15:02:32 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ size_t	ft_strlen(char *str)
 size_t	ft_atoul(const char *str)
 {
 	size_t	nbr;
+	size_t	check;
 	size_t	i;
 
 	nbr = 0;
@@ -44,8 +45,11 @@ size_t	ft_atoul(const char *str)
 		i++;
 	while (str[i] >= '0' && str[i] <= '9')
 	{
+		check = nbr;
 		nbr *= 10;
 		nbr += str[i] - '0';
+		if (check != nbr / 10)
+			return (0);
 		i++;
 	}
 	return (nbr);
@@ -67,3 +71,4 @@ void	ft_wait(size_t wait_time, t_philo *philo, int first_wait)
 		usleep(100);
 	}
 }
+
