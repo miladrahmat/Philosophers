@@ -6,7 +6,7 @@
 /*   By: mrahmat- <mrahmat-@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 13:39:51 by mrahmat-          #+#    #+#             */
-/*   Updated: 2024/12/17 14:54:15 by mrahmat-         ###   ########.fr       */
+/*   Updated: 2024/12/18 13:19:27 by mrahmat-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
  * @param time_to_sleep The time it takes the philosopher to stop sleeping
  * (in milliseconds).
  * @param start_time Starting time of the program.
+ * @param simulation A pointer to the `simulation` flag found in `t_prog`.
  * @param dead A pointer to the `dead` flag found in `t_prog`.
  * @param l_fork A mutex for the philosophers left hand fork.
  * @param r_fork A mutex for the philosophers right hand fork.
@@ -70,6 +71,8 @@ typedef struct s_philo
  * A structure for the program, containing every philosopher and mutexes
  * used in the program.
  * 
+ * @param simulation A flag indicating when the all the threads have been created
+ * and the simulation can start.
  * @param dead A death flag to see if any of the philosophers has died.
  * @param data_lock A mutex to make sure that changing/checking the shared data
  * between the philosophers won't overlap
