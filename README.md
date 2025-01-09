@@ -46,11 +46,11 @@ The program takes the following arguments:
 - **Number of times each phlosopher must eat** (optional argument): If all philosophers have eaten at least **number of times each philosopher must eat** times, the simulation stops. If not specified the simulation stops when a philosopher dies.
 
 The program outputs any state change of a philosopher in the following format:
-- **timestamp_in_ms** **X** **has taken a fork**
-- **timestamp_in_ms** **X** **is eating**
-- **timestamp_in__ms** **X** **is sleeping**
-- **timestamp_in_ms** **X** **is thinking**
-- **timestamp_in_ms** **X** **died**
+- **timestamp_in_ms**  **X** **has taken a fork**
+- **timestamp_in_ms**  **X**  **is eating**
+- **timestamp_in_ms**  **X**  **is sleeping**
+- **timestamp_in_ms**  **X**  **is thinking**
+- **timestamp_in_ms**  **X**  **died**
 
 ***time_stamp_in_ms** is the current timestamp in milliseconds and **X** is the number of the philosopher* 
 ### Example
